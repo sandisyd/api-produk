@@ -3,4 +3,7 @@ export interface Produk{
     nama_produk: string;
     qty: number;
     harga: string;
+    // file: {
+    //     data: string;
+    // }
 }
