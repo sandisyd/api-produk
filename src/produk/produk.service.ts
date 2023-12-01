@@ -18,26 +18,32 @@ export class ProdukService {
     }
 
     createProduk(cProdukdto: CreateProdukDto): Promise<Produk>{
-        // const{nama_produk, qty, harga} = cProdukdto;
         return this.produkRepo.createProduk(cProdukdto)
     }
 
-    // getProdukById(id: string){
-    //     const pId = this.produk.find((produk)=> produk.id === id);
-    //     if (!pId) {
-    //         throw new NotFoundException('Produk tidak ditemukan');
-    //     }
-    //     return pId;
-    // }
+    // updateProduk
+    async updateProduk(id: string, uProduk: UpdateDto){
+        const p = await this.produkRepo.getPordukByID(id);
+        const title = uProduk.nama_produk;
+        const qty = uProduk.qty;
+        if (title) {
+            p.nama_produk = title
+        }
+        if (qty) {
+            p.qty = qty;
+        }
+        await this.produkRepo.save(p)
+        return p;
+    }
 
-    // update data
-    // updateProduk(id: string, updateProduk: UpdateDto){
-    //     const prod = this.getProdukById(id)
-    //     prod.nama_produk = updateProduk.nama_produk
-    //     prod.qty = updateProduk.qty
-    //     return prod;
-    // }
+    getProdukById(id: string){
+        return this.produkRepo.getPordukByID(id);
+    }
 
+    // delete data
+    deleteProduk(id: string){
+        return this.produkRepo.deleteProduk(id);
+    }
     // delete data
     // deleteProduk(id: string){
     //     const a = this.getProdukById(id)

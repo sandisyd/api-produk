@@ -15,6 +15,7 @@ import { UpdateDto } from './dto/update.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { GetFilterDto } from './dto/get-filter.dto';
+import { ProdukRepo } from './repo/produk.repository';
 
 @Controller('produk')
 export class ProdukController {
@@ -32,20 +33,22 @@ export class ProdukController {
     return this.produkService.createProduk(cProdukdto);
   }
 
-//   @Get(':id')
-//   produkById(@Param('id') id: string) {
-//     return this.produkService.getProdukById(id);
-//   }
+  // update produk
+  @Post('update_produk/:id')
+  produkUpdate(@Param('id') id: string, @Body() uProd: UpdateDto){
+    return this.produkService.updateProduk(id, uProd)
+  }
 
-//   @Post('updateProduk/:id')
-//   produkUpdate(@Param('id') id: string, @Body() updateProduk: UpdateDto) {
-//     return this.produkService.updateProduk(id, updateProduk);
-//   }
+  @Get(':id')
+  produkById(@Param('id') id: string) {
+    return this.produkService.getProdukById(id);
+  }
 
-//   @Delete('deleteProduk/:id')
-//   deleteProduk(@Param('id') id: string) {
-//     return this.produkService.deleteProduk(id);
-//   }
+  // delete produk
+  @Delete('delete_produk/:id')
+  produkDelete(@Param('id') id: string){
+    return this.produkService.deleteProduk(id);
+  }
 
   // upload file
   //   @Post('uploadFile')

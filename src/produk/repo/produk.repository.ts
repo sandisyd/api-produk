@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { DataSource, Repository } from "typeorm";
 import { Produk } from "../produk.entity";
 import { GetFilterDto } from "../dto/get-filter.dto";
@@ -31,7 +31,33 @@ export class ProdukRepo extends Repository<Produk>{
             qty,
             harga
         });
-        await this.save(produkBaru);
-        return produkBaru;
+        
+        return await this.save(produkBaru);
+    }
+
+    // get by id
+    async getPordukByID(id: string){
+        try {
+            const f = await this.findOne({
+                where: {
+                    id
+                }
+            });
+            return f;
+        } catch (error) {
+            throw new NotFoundException(`Produk dengan ${id} tidak ditemukan`);
+            
+        }
+    }
+
+    async deleteProduk(id: string){
+        const dProd = await this.delete(id)
+
+        if (dProd.affected === 0) {
+            throw new NotFoundException("Produk tidak ditemukan");
+            
+        }
+
+        return dProd;
     }
 }
