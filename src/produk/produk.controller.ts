@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProdukService } from './produk.service';
@@ -16,8 +17,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { GetFilterDto } from './dto/get-filter.dto';
 import { ProdukRepo } from './repo/produk.repository';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('produk')
+@UseGuards(AuthGuard())
 export class ProdukController {
   constructor(private produkService: ProdukService) {}
 
